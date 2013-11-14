@@ -1,24 +1,31 @@
 <?php
 
-class Gearman_Controller extends Controller
+class Beanstalkd_Controller extends Controller
 {
     public function indexAction()
     {
         $config = App::instance()->config;
-        $worker = new GearmanWorker();
+        $pheanstalk = new Pheanstalk_Pheanstalk($config['beanstalkd']['host'], $config['beanstalkd']['port']);
 
-        $worker->addServer($config['gearman']['host'], $config['gearman']['port']);
-        $worker->addFunction('delete_keys', array($this, 'deleteKeys'));
-        $worker->addFunction('move_keys', array($this, 'moveKeys'));
+        $job = $pheanstalk
+            ->watch('phpredmin')
+            ->ignore('default')
+            ->reserve();
 
-        while ($worker->work());
+        $data = $job->getData();
+        $data = explode(' ', $data);
+        $func = $data[0];
+
+        if (method_exists($this, $func)) {
+            $this->$func(urldecode($data[1]));
+        }
+        $pheanstalk->delete($job);
     }
 
-    public function deleteKeys($job)
+    public function deleteKeys($data)
     {
-        $data = $job->workload();
 
-        Log::factory()->write(Log::INFO, "Try to delete: {$data}", 'Gearman');
+        Log::factory()->write(Log::INFO, "Try to delete: {$data}", 'Beanstalk');
 
         $keys  = $this->db->keys($data);
         $count = count($keys);
@@ -32,7 +39,7 @@ class Gearman_Controller extends Controller
                 $this->db->incrBy("phpredmin:deleted:{$data}", 1);
                 $this->db->expireAt("phpredmin:deleted:{$data}", strtotime('+10 minutes'));
             } else
-                Log::factory()->write(Log::INFO, "Unable to delete {$key}", 'Gearman');
+                Log::factory()->write(Log::INFO, "Unable to delete {$key}", 'Beanstalkd');
         }
 
         $this->db->del("phpredmin:deletecount:{$data}");

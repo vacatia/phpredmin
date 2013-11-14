@@ -20,7 +20,7 @@ $config = Array(
             'password' => 'root'
         ),
         'redis' => Array(
-            'host'     => 'localhost',
+            'host'     => 'redis',
             'port'     => '6379',
             'password' => Null,
             'database' => 0
@@ -31,9 +31,9 @@ $config = Array(
         'gc_probability' => 2,
         'name'           => 'phpredminsession'
     ),
-    'gearman' => Array(
-        'host' => '127.0.0.1',
-        'port' => 4730
+    'beanstalkd' => Array(
+        'host' => 'beanstalkd',
+        'port' => 11300
     )
 );
 

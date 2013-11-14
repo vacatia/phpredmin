@@ -1,3 +1,6 @@
 {
-        "name": "danionut90/phpredmin"
+    "name": "danionut90/phpredmin",
+    "require": {
+        "pda/pheanstalk": ">=2.1.0,<3.0-dev"
+    }
 }

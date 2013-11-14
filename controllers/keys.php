@@ -110,10 +110,9 @@ class Keys_Controller extends Controller
 
             if (isset($key) && trim($key) != '') {
                 $config = App::instance()->config;
-                $client = new GearmanClient();
-
-                $client->addServer($config['gearman']['host'], $config['gearman']['port']);
-                $client->doBackground('delete_keys', $key);
+                $pheanstalk = new Pheanstalk_Pheanstalk($config['beanstalkd']['host'], $config['beanstalkd']['port']);
+                $pheanstalk->useTube('phpredmin')
+                    ->put('deleteKeys '.urlencode($key));
             }
         }
     }

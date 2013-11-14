@@ -15,7 +15,14 @@ function __autoload($class)
     } else
         $dir = 'libraries';
 
-    include_once($path.$dir.'/'.(strtolower($class)).'.php');
+    include_once(dirname(__FILE__) . '/' . $path.$dir.'/'.(strtolower($class)).'.php');
+}
+
+
+if (file_exists(dirname(__FILE__) . '/../../../pda/pheanstalk/pheanstalk_init.php')) {
+    require_once dirname(__FILE__) . '/../../../pda/pheanstalk/pheanstalk_init.php';
+} else {
+    die('pheanstalk not installed or not in correct location');
 }
 
 if (isset(App::instance()->config['timezone']))
