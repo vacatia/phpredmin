@@ -10,7 +10,7 @@ class FileLog
         if (!$config_dir)
             die('Please provide a log directory in your config file');
         else {
-            $this->_dir = '/var/www/vacatia.com/current/app/logs/'.$config_dir.'/'.PHP_SAPI.'/';
+            $this->_dir = $config_dir . "/";
 
             if (!is_writable($this->_dir))
                 if (!mkdir($this->_dir, 0755, True))
@@ -23,7 +23,7 @@ class FileLog
         if (App::instance()->config['log']['threshold'] < Log::instance()->$type)
             return;
 
-        $logfile = $this->_dir.date('Y-m-d').'.log';
+        $logfile = $this->_dir.'phpredmin.log';
 
         if (($file = fopen($logfile, 'a+')) === False)
             die('Can not open file: '.$logfile);
