@@ -111,7 +111,7 @@ class Keys_Controller extends Controller
             if (isset($key) && trim($key) != '') {
                 $config = App::instance()->config;
                 $pheanstalk = new Pheanstalk_Pheanstalk($config['beanstalkd']['host'], $config['beanstalkd']['port']);
-                $pheanstalk->useTube('phpredmin')
+                $pheanstalk->useTube('generic')
                     ->put('deleteKeys '.urlencode($key));
             }
         }
