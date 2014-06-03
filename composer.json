@@ -1,5 +1,5 @@
 {
-    "name": "danionut90/phpredmin",
+    "name": "vacatia/phpredmin",
     "require": {
         "pda/pheanstalk": ">=2.1.0,<3.0-dev"
     }
