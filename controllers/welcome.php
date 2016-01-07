@@ -49,7 +49,6 @@ class Welcome_Controller extends Controller
         $dbSize     = $this->db->dbSize();
         $lastSave   = $this->db->lastSave();
 
-
         Template::factory()->render('welcome/info', array('info'       => $info,
                                                           'uptimeDays' => $uptimeDays,
                                                           'dbSize'     => $dbSize,

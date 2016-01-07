@@ -57,7 +57,7 @@
                 <?=$this->info['connected_clients']?>
             </td>
         </tr>
-        <?php if ($this->info['role'] == 'master') {?>
+        <?php if ($this->info['role'] == 'master') { ?>
             <tr>
                 <td>
                     Slaves:
@@ -66,7 +66,7 @@
                     <?=$this->info['connected_slaves']?>
                 </td>
             </tr>
-        <? } ?>
+        <?php } ?>
         <tr>
             <td>
                 Used Memory:
@@ -97,7 +97,7 @@
             </td>
             <td>
                 <?=date('Y-m-d H:i:s', isset($this->info['last_save_time']) ? $this->info['last_save_time']
-                                                                            : $this->info['rdb_last_save_time'])?>
+                    : $this->info['rdb_last_save_time'])?>
             </td>
         </tr>
         <tr>
